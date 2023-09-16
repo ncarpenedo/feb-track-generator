@@ -5,11 +5,47 @@
 #include <memory>
 #include <string>
 #include <sstream>
+#include <cmath>
 
 struct Point {
     double x;
     double y;
 };
+
+enum AngleType {
+    CLOCKWISE,
+    COUNTERCLOCKWISE,
+    STRAIGHT
+};
+
+// Function to calculate the angle between two points
+AngleType calculateAngle(const Point& point1, const Point& point2) {
+    double angle = atan2(point2.y - point1.y, point2.x - point1.x);
+
+    if (angle > 0) {
+        return CLOCKWISE;
+    } else if (angle < 0) {
+        return COUNTERCLOCKWISE;
+    } else {
+        return STRAIGHT;
+    }
+}
+
+Point getPointWrapped(std::vector<Point>* points, int i) {
+    int real_index = i % points->size();
+    return points->at(real_index);
+}
+
+std::string makeOutline(std::vector<Point>* points, int radius, int offset) {
+    // Write lines connecting points
+    std::ostringstream oss;
+    for (size_t i = 0; i < points->size(); ++i) {
+        oss << "<line x1=\"" << getPointWrapped(points, i).x << "\" y1=\"" << getPointWrapped(points, i).y << "\" "
+                << "x2=\"" << getPointWrapped(points, i+1).x << "\" y2=\"" << getPointWrapped(points, i+1).y << "\" "
+                << "style=\"stroke: black;\"/>" << std::endl;
+    }
+    return oss.str();
+}
 
 // Function to write SVG file with lines connecting points
 void writeSVG(std::vector<Point>* points, const std::string& filename) {
@@ -26,12 +62,7 @@ void writeSVG(std::vector<Point>* points, const std::string& filename) {
     svgFile << "<svg width=\"500\" height=\"500\" version=\"1.1\"" << std::endl;
     svgFile << "     xmlns=\"http://www.w3.org/2000/svg\">" << std::endl;
 
-    // Write lines connecting points
-    for (size_t i = 0; i < points->size() - 1; ++i) {
-        svgFile << "<line x1=\"" << points->at(i).x << "\" y1=\"" << points->at(i).y << "\" "
-                << "x2=\"" << points->at(i+1).x << "\" y2=\"" << points->at(i+1).y << "\" "
-                << "style=\"stroke: black;\"/>" << std::endl;
-    }
+    svgFile << makeOutline(points, 10, 2);
 
     // Close SVG
     svgFile << "</svg>" << std::endl;
