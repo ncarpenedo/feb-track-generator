@@ -13,6 +13,8 @@ struct Point {
 
 enum AngleType { CLOCKWISE, COUNTERCLOCKWISE, STRAIGHT };
 
+enum LineType { LINE_HORIZONTAL, LINE_VERTICAL, LINE_NEITHER };
+
 // Function to calculate the angle between two points
 AngleType calculateAngle(const Point& point1, const Point& point2) {
   double angle = atan2(point2.y - point1.y, point2.x - point1.x);
@@ -23,6 +25,19 @@ AngleType calculateAngle(const Point& point1, const Point& point2) {
     return COUNTERCLOCKWISE;
   } else {
     return STRAIGHT;
+  }
+}
+
+// Function to determine the line type between two points
+LineType getLineType(const Point& point1, const Point& point2) {
+  if (point1.x == point2.x && point1.y != point2.y) {
+    return LINE_VERTICAL;
+  } else if (point1.y == point2.y && point1.x != point2.x) {
+    return LINE_HORIZONTAL;
+  } else {
+    std::cerr << "Segment is diagonal. Currently unsupported behavior."
+              << std::endl;
+    return LINE_NEITHER;
   }
 }
 
