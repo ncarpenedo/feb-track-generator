@@ -11,42 +11,21 @@ struct Point {
   double y;
 };
 
-enum AngleType { CLOCKWISE, COUNTERCLOCKWISE, STRAIGHT };
-
-enum LineDirection {
-    LINE_UP,
-    LINE_DOWN,
-    LINE_LEFT,
-    LINE_RIGHT,
-    LINE_UNKNOWN
-};
-
-// Function to calculate the angle between two points
-AngleType calculateAngle(const Point& point1, const Point& point2) {
-  double angle = atan2(point2.y - point1.y, point2.x - point1.x);
-
-  if (angle > 0) {
-    return CLOCKWISE;
-  } else if (angle < 0) {
-    return COUNTERCLOCKWISE;
-  } else {
-    return STRAIGHT;
-  }
-}
+enum LineDirection { LINE_UP, LINE_DOWN, LINE_LEFT, LINE_RIGHT, LINE_UNKNOWN };
 
 // Function to determine the direction of the line between two points
 LineDirection getLineDirection(const Point& point1, const Point& point2) {
-    if (point1.x < point2.x && point1.y == point2.y) {
-        return LINE_RIGHT;
-    } else if (point1.x > point2.x && point1.y == point2.y) {
-        return LINE_LEFT;
-    } else if (point1.x == point2.x && point1.y < point2.y) {
-        return LINE_DOWN;
-    } else if (point1.x == point2.x && point1.y > point2.y) {
-        return LINE_UP;
-    } else {
-        return LINE_UNKNOWN;
-    }
+  if (point1.x < point2.x && point1.y == point2.y) {
+    return LINE_RIGHT;
+  } else if (point1.x > point2.x && point1.y == point2.y) {
+    return LINE_LEFT;
+  } else if (point1.x == point2.x && point1.y < point2.y) {
+    return LINE_DOWN;
+  } else if (point1.x == point2.x && point1.y > point2.y) {
+    return LINE_UP;
+  } else {
+    return LINE_UNKNOWN;
+  }
 }
 
 Point getPointWrapped(std::vector<Point>* points, int i) {
@@ -54,8 +33,10 @@ Point getPointWrapped(std::vector<Point>* points, int i) {
   return points->at(real_index);
 }
 
-std::string makeOffsetLine(const Point& point1, const Point& point2, int offset) {
-  std::ostringstream oss;
+std::pair<Point, Point> getOffsetPoints(const Point& point1,
+                                        const Point& point2, int offset) {
+  Point line_start;
+  Point line_end;
   int offset_x = 0, offset_y = 0;
   LineDirection type = getLineDirection(point1, point2);
   if (type == LINE_UP) {
@@ -68,8 +49,20 @@ std::string makeOffsetLine(const Point& point1, const Point& point2, int offset)
     offset_x = offset;
   }
 
-  oss << "<line x1=\"" << point1.x  + offset_x << "\" y1=\"" << point1.y + offset_y << "\" "
-      << "x2=\"" << point2.x - offset_x << "\" y2=\"" << point2.y - offset_y << "\" "
+  line_start.x = point1.x + offset_x;
+  line_start.y = point1.y + offset_y;
+
+  line_end.x = point2.x - offset_x;
+  line_end.y = point2.y - offset_y;
+
+  return std::make_pair(line_start, line_end);
+}
+
+std::string makeLine(const Point& point1, const Point& point2) {
+  std::ostringstream oss;
+
+  oss << "<line x1=\"" << point1.x << "\" y1=\"" << point1.y << "\" "
+      << "x2=\"" << point2.x << "\" y2=\"" << point2.y << "\" "
       << "style=\"stroke: black;\"/>" << std::endl;
   return oss.str();
 }
@@ -78,7 +71,11 @@ std::string makeOutline(std::vector<Point>* points, int radius, int offset) {
   // Write lines connecting points
   std::ostringstream oss;
   for (size_t i = 0; i < points->size(); ++i) {
-    oss << makeOffsetLine(getPointWrapped(points, i), getPointWrapped(points, i + 1), radius);
+    auto line_points = getOffsetPoints(getPointWrapped(points, i),
+                                       getPointWrapped(points, i + 1), radius);
+    Point line_start = line_points.first;
+    Point line_end = line_points.second;
+    oss << makeLine(line_start, line_end);
   }
   return oss.str();
 }
