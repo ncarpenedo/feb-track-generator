@@ -46,15 +46,19 @@ Point getPointWrapped(std::vector<Point>* points, int i) {
   return points->at(real_index);
 }
 
+std::string makeLine(const Point& point1, const Point& point2) {
+  std::ostringstream oss;
+  oss << "<line x1=\"" << point1.x << "\" y1=\"" << point1.y << "\" "
+      << "x2=\"" << point2.x << "\" y2=\"" << point2.y << "\" "
+      << "style=\"stroke: black;\"/>" << std::endl;
+  return oss.str();
+}
+
 std::string makeOutline(std::vector<Point>* points, int radius, int offset) {
   // Write lines connecting points
   std::ostringstream oss;
   for (size_t i = 0; i < points->size(); ++i) {
-    oss << "<line x1=\"" << getPointWrapped(points, i).x << "\" y1=\""
-        << getPointWrapped(points, i).y << "\" "
-        << "x2=\"" << getPointWrapped(points, i + 1).x << "\" y2=\""
-        << getPointWrapped(points, i + 1).y << "\" "
-        << "style=\"stroke: black;\"/>" << std::endl;
+    oss << makeLine(getPointWrapped(points, i), getPointWrapped(points, i + 1));
   }
   return oss.str();
 }
