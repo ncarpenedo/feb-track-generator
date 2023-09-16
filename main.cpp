@@ -120,6 +120,26 @@ std::string makeOutline(std::vector<Point>* points, int radius,
   return oss.str();
 }
 
+std::string makeStartLine(std::vector<Point>* points, std::string style) {
+    Point start, p1, p2;
+    start = getPointWrapped(points, 0);
+    LineDirection direction = getLineDirection(getPointWrapped(points, 0), getPointWrapped(points, 1));
+    if (direction == LINE_RIGHT || direction == LINE_LEFT) {
+        p1.x = start.x;
+        p2.x = start.x;
+        p1.y = start.y + TRACK_WIDTH / 2;
+        p2.y = start.y - TRACK_WIDTH / 2;
+    } else if (direction == LINE_UP || direction == LINE_DOWN) {
+        p1.x = start.x + TRACK_WIDTH / 2;
+        p2.x = start.x - TRACK_WIDTH / 2;
+        p1.y = start.y;
+        p2.y = start.y;
+    }
+
+    return makeLine(p1, p2, style);
+
+}
+
 // Function to write SVG file with lines connecting points
 void writeSVG(std::vector<Point>* points, const std::string& filename) {
   std::ofstream svgFile(filename);
@@ -141,6 +161,8 @@ void writeSVG(std::vector<Point>* points, const std::string& filename) {
   svgFile << makeOutline(points, TURN_RADIUS, INSIDE_TRACK_STYLE);
 
   svgFile << makeOutline(points, TURN_RADIUS, CENTERLINE_STYLE);
+
+  svgFile << makeStartLine(points, STARTLINE_STYLE);
 
   // Close SVG
   svgFile << "</svg>" << std::endl;

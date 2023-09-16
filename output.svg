@@ -45,4 +45,5 @@
 <path d="M 75 95 q 0 -10 10 -10" fill="none" stroke="red" stroke-dasharray="0.5,2" stroke-width="0.500000" />
 <line x1="85" y1="85" x2="115" y2="85" stroke="red" stroke-dasharray="0.5,2" stroke-width="0.500000" />
 <path d="M 115 85 q 10 0 20 0" fill="none" stroke="red" stroke-dasharray="0.5,2" stroke-width="0.500000" />
+<line x1="125" y1="87" x2="125" y2="83" stroke="red" stroke-width="1" />
 </svg>
