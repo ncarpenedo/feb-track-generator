@@ -67,6 +67,17 @@ std::string makeLine(const Point& point1, const Point& point2) {
   return oss.str();
 }
 
+// Function to create an SVG arc line
+std::string makeArc(const Point& point1, const Point& point2, const Point& point3) {
+    std::ostringstream svgPath;
+    svgPath << "<path d=\"M " << point1.x << " " << point1.y << " q ";
+    svgPath << point2.x - point1.x << " " << point2.y - point1.y << " ";
+    svgPath << point3.x - point1.x << " " << point3.y - point1.y << "\"";
+    svgPath << " stroke=\"black\" fill=\"none\" />" << std::endl;
+
+    return svgPath.str();
+}
+
 std::string makeOutline(std::vector<Point>* points, int radius, int offset) {
   // Write lines connecting points
   std::ostringstream oss;
@@ -76,6 +87,12 @@ std::string makeOutline(std::vector<Point>* points, int radius, int offset) {
     Point line_start = line_points.first;
     Point line_end = line_points.second;
     oss << makeLine(line_start, line_end);
+
+    auto arc_start = line_end;
+    auto arc_control_point = getPointWrapped(points, i + 1);
+    auto arc_end = getOffsetPoints(getPointWrapped(points, i + 1),
+                                    getPointWrapped(points, i + 2), radius).first;
+    oss << makeArc(arc_start, arc_control_point, arc_end);
   }
   return oss.str();
 }
