@@ -3,18 +3,46 @@
   "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
 <svg width="500" height="500" version="1.1"
      xmlns="http://www.w3.org/2000/svg">
-<line x1="160" y1="110" x2="190" y2="110" style="stroke: black;"/>
-<path d="M 190 110 q 10 0 10 -10" stroke="black" fill="none" />
-<line x1="200" y1="100" x2="200" y2="60" style="stroke: black;"/>
-<path d="M 200 60 q 0 -10 -10 -10" stroke="black" fill="none" />
-<line x1="190" y1="50" x2="60" y2="50" style="stroke: black;"/>
-<path d="M 60 50 q -10 0 -10 10" stroke="black" fill="none" />
-<line x1="50" y1="60" x2="50" y2="150" style="stroke: black;"/>
-<path d="M 50 150 q 0 10 10 10" stroke="black" fill="none" />
-<line x1="60" y1="160" x2="90" y2="160" style="stroke: black;"/>
-<path d="M 90 160 q 10 0 10 -10" stroke="black" fill="none" />
-<line x1="100" y1="150" x2="100" y2="120" style="stroke: black;"/>
-<path d="M 100 120 q 0 -10 10 -10" stroke="black" fill="none" />
-<line x1="110" y1="110" x2="140" y2="110" style="stroke: black;"/>
-<path d="M 140 110 q 10 0 20 0" stroke="black" fill="none" />
+<line x1="135" y1="85" x2="165" y2="85" stroke="black" stroke-width="5" />
+<path d="M 165 85 q 10 0 10 -10" fill="none" stroke="black" stroke-width="5" />
+<line x1="175" y1="75" x2="175" y2="35" stroke="black" stroke-width="5" />
+<path d="M 175 35 q 0 -10 -10 -10" fill="none" stroke="black" stroke-width="5" />
+<line x1="165" y1="25" x2="35" y2="25" stroke="black" stroke-width="5" />
+<path d="M 35 25 q -10 0 -10 10" fill="none" stroke="black" stroke-width="5" />
+<line x1="25" y1="35" x2="25" y2="125" stroke="black" stroke-width="5" />
+<path d="M 25 125 q 0 10 10 10" fill="none" stroke="black" stroke-width="5" />
+<line x1="35" y1="135" x2="65" y2="135" stroke="black" stroke-width="5" />
+<path d="M 65 135 q 10 0 10 -10" fill="none" stroke="black" stroke-width="5" />
+<line x1="75" y1="125" x2="75" y2="95" stroke="black" stroke-width="5" />
+<path d="M 75 95 q 0 -10 10 -10" fill="none" stroke="black" stroke-width="5" />
+<line x1="85" y1="85" x2="115" y2="85" stroke="black" stroke-width="5" />
+<path d="M 115 85 q 10 0 20 0" fill="none" stroke="black" stroke-width="5" />
+<line x1="135" y1="85" x2="165" y2="85" stroke="white" stroke-width="4" />
+<path d="M 165 85 q 10 0 10 -10" fill="none" stroke="white" stroke-width="4" />
+<line x1="175" y1="75" x2="175" y2="35" stroke="white" stroke-width="4" />
+<path d="M 175 35 q 0 -10 -10 -10" fill="none" stroke="white" stroke-width="4" />
+<line x1="165" y1="25" x2="35" y2="25" stroke="white" stroke-width="4" />
+<path d="M 35 25 q -10 0 -10 10" fill="none" stroke="white" stroke-width="4" />
+<line x1="25" y1="35" x2="25" y2="125" stroke="white" stroke-width="4" />
+<path d="M 25 125 q 0 10 10 10" fill="none" stroke="white" stroke-width="4" />
+<line x1="35" y1="135" x2="65" y2="135" stroke="white" stroke-width="4" />
+<path d="M 65 135 q 10 0 10 -10" fill="none" stroke="white" stroke-width="4" />
+<line x1="75" y1="125" x2="75" y2="95" stroke="white" stroke-width="4" />
+<path d="M 75 95 q 0 -10 10 -10" fill="none" stroke="white" stroke-width="4" />
+<line x1="85" y1="85" x2="115" y2="85" stroke="white" stroke-width="4" />
+<path d="M 115 85 q 10 0 20 0" fill="none" stroke="white" stroke-width="4" />
+<line x1="135" y1="85" x2="165" y2="85" stroke="red" stroke-dasharray="0.5,2" stroke-width="0.500000" />
+<path d="M 165 85 q 10 0 10 -10" fill="none" stroke="red" stroke-dasharray="0.5,2" stroke-width="0.500000" />
+<line x1="175" y1="75" x2="175" y2="35" stroke="red" stroke-dasharray="0.5,2" stroke-width="0.500000" />
+<path d="M 175 35 q 0 -10 -10 -10" fill="none" stroke="red" stroke-dasharray="0.5,2" stroke-width="0.500000" />
+<line x1="165" y1="25" x2="35" y2="25" stroke="red" stroke-dasharray="0.5,2" stroke-width="0.500000" />
+<path d="M 35 25 q -10 0 -10 10" fill="none" stroke="red" stroke-dasharray="0.5,2" stroke-width="0.500000" />
+<line x1="25" y1="35" x2="25" y2="125" stroke="red" stroke-dasharray="0.5,2" stroke-width="0.500000" />
+<path d="M 25 125 q 0 10 10 10" fill="none" stroke="red" stroke-dasharray="0.5,2" stroke-width="0.500000" />
+<line x1="35" y1="135" x2="65" y2="135" stroke="red" stroke-dasharray="0.5,2" stroke-width="0.500000" />
+<path d="M 65 135 q 10 0 10 -10" fill="none" stroke="red" stroke-dasharray="0.5,2" stroke-width="0.500000" />
+<line x1="75" y1="125" x2="75" y2="95" stroke="red" stroke-dasharray="0.5,2" stroke-width="0.500000" />
+<path d="M 75 95 q 0 -10 10 -10" fill="none" stroke="red" stroke-dasharray="0.5,2" stroke-width="0.500000" />
+<line x1="85" y1="85" x2="115" y2="85" stroke="red" stroke-dasharray="0.5,2" stroke-width="0.500000" />
+<path d="M 115 85 q 10 0 20 0" fill="none" stroke="red" stroke-dasharray="0.5,2" stroke-width="0.500000" />
 </svg>

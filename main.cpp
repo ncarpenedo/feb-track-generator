@@ -6,6 +6,25 @@
 #include <string>
 #include <vector>
 
+#define INPUT_CSV "points.csv"
+#define OUTPUT_PATH "output.svg"
+
+#define TURN_RADIUS 10
+#define TRACK_WIDTH 4
+#define TRACK_LINE_THICKNESS 1
+#define CENTERLINE_THICKNESS 0.5
+#define PADDING 25
+
+#define STARTLINE_STYLE "stroke=\"red\" stroke-width=\"1\""
+#define CENTERLINE_STYLE                                        \
+  "stroke=\"red\" stroke-dasharray=\"0.5,2\" stroke-width=\"" + \
+      std::to_string(CENTERLINE_THICKNESS) + "\""
+#define INSIDE_TRACK_STYLE \
+  "stroke=\"white\" stroke-width=\"" + std::to_string(TRACK_WIDTH) + "\""
+#define OUTSIDE_TRACK_STYLE            \
+  "stroke=\"black\" stroke-width=\"" + \
+      std::to_string(TRACK_WIDTH + TRACK_LINE_THICKNESS) + "\""
+
 struct Point {
   double x;
   double y;
@@ -58,27 +77,30 @@ std::pair<Point, Point> getOffsetPoints(const Point& point1,
   return std::make_pair(line_start, line_end);
 }
 
-std::string makeLine(const Point& point1, const Point& point2) {
+std::string makeLine(const Point& point1, const Point& point2,
+                     std::string style) {
   std::ostringstream oss;
 
   oss << "<line x1=\"" << point1.x << "\" y1=\"" << point1.y << "\" "
-      << "x2=\"" << point2.x << "\" y2=\"" << point2.y << "\" "
-      << "style=\"stroke: black;\"/>" << std::endl;
+      << "x2=\"" << point2.x << "\" y2=\"" << point2.y << "\" " << style
+      << " />" << std::endl;
   return oss.str();
 }
 
 // Function to create an SVG arc line
-std::string makeArc(const Point& point1, const Point& point2, const Point& point3) {
-    std::ostringstream svgPath;
-    svgPath << "<path d=\"M " << point1.x << " " << point1.y << " q ";
-    svgPath << point2.x - point1.x << " " << point2.y - point1.y << " ";
-    svgPath << point3.x - point1.x << " " << point3.y - point1.y << "\"";
-    svgPath << " stroke=\"black\" fill=\"none\" />" << std::endl;
+std::string makeArc(const Point& point1, const Point& point2,
+                    const Point& point3, std::string style) {
+  std::ostringstream svgPath;
+  svgPath << "<path d=\"M " << point1.x << " " << point1.y << " q ";
+  svgPath << point2.x - point1.x << " " << point2.y - point1.y << " ";
+  svgPath << point3.x - point1.x << " " << point3.y - point1.y << "\"";
+  svgPath << " fill=\"none\" " << style << " />" << std::endl;
 
-    return svgPath.str();
+  return svgPath.str();
 }
 
-std::string makeOutline(std::vector<Point>* points, int radius, int offset) {
+std::string makeOutline(std::vector<Point>* points, int radius,
+                        std::string style) {
   // Write lines connecting points
   std::ostringstream oss;
   for (size_t i = 0; i < points->size(); ++i) {
@@ -86,13 +108,14 @@ std::string makeOutline(std::vector<Point>* points, int radius, int offset) {
                                        getPointWrapped(points, i + 1), radius);
     Point line_start = line_points.first;
     Point line_end = line_points.second;
-    oss << makeLine(line_start, line_end);
+    oss << makeLine(line_start, line_end, style);
 
     auto arc_start = line_end;
     auto arc_control_point = getPointWrapped(points, i + 1);
     auto arc_end = getOffsetPoints(getPointWrapped(points, i + 1),
-                                    getPointWrapped(points, i + 2), radius).first;
-    oss << makeArc(arc_start, arc_control_point, arc_end);
+                                   getPointWrapped(points, i + 2), radius)
+                       .first;
+    oss << makeArc(arc_start, arc_control_point, arc_end, style);
   }
   return oss.str();
 }
@@ -113,7 +136,11 @@ void writeSVG(std::vector<Point>* points, const std::string& filename) {
   svgFile << "<svg width=\"500\" height=\"500\" version=\"1.1\"" << std::endl;
   svgFile << "     xmlns=\"http://www.w3.org/2000/svg\">" << std::endl;
 
-  svgFile << makeOutline(points, 10, 2);
+  svgFile << makeOutline(points, TURN_RADIUS, OUTSIDE_TRACK_STYLE);
+
+  svgFile << makeOutline(points, TURN_RADIUS, INSIDE_TRACK_STYLE);
+
+  svgFile << makeOutline(points, TURN_RADIUS, CENTERLINE_STYLE);
 
   // Close SVG
   svgFile << "</svg>" << std::endl;
@@ -240,10 +267,10 @@ void printPoints(const std::unique_ptr<std::vector<Point>>& points) {
 }
 
 int main() {
-  auto points = readPointsFromCSV("points.csv");
-  correctPoints(points, 50);
+  auto points = readPointsFromCSV(INPUT_CSV);
+  correctPoints(points, PADDING);
   printPoints(points);
-  writeSVG(points.get(), "output.svg");
+  writeSVG(points.get(), OUTPUT_PATH);
 
   return 0;
 }
